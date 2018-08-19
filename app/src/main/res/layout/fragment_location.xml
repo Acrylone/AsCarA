@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/location_fragment"
     android:layout_width="match_parent"
@@ -7,25 +7,34 @@
     tools:context="com.example.acrylon3.ascara.Location_Fragment">
 
 
-    <FrameLayout
-        android:id="@+id/myFrame"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/location_editxt"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:hint="Your Address"
-        android:textAlignment="center" />
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp"
+        android:maxLines="1"
+        android:singleLine="true"
+        android:hint="Enter Place Here"/>
+
+
+    <ImageView
+        android:id="@+id/poweredBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/powered_by_google_light"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 
     <Button
+        android:id="@+id/set_position_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_bottom"
+        android:layout_below="@+id/location_editxt"
+        android:padding="@dimen/padding"
         android:text="@string/your_position"
         android:textAlignment="center" />
 
-</LinearLayout>
+</RelativeLayout>
