@@ -7,7 +7,6 @@
     tools:context="com.example.acrylon3.ascara.Location_Fragment">
 
 
-
     <AutoCompleteTextView
         android:id="@+id/location_editxt"
         android:layout_width="match_parent"
@@ -18,16 +17,6 @@
         android:singleLine="true"
         android:hint="Enter Place Here"/>
 
-
-    <ImageView
-        android:id="@+id/poweredBy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/powered_by_google_light"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-
     <Button
         android:id="@+id/set_position_btn"
         android:layout_width="match_parent"
@@ -36,5 +25,14 @@
         android:padding="@dimen/padding"
         android:text="@string/your_position"
         android:textAlignment="center" />
+
+
+    <ImageView
+        android:id="@+id/poweredBy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/powered_by_google_light"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -57,12 +57,11 @@
     </LinearLayout>
 
     <fragment
-        android:id="@+id/fragment"
+        android:id="@+id/fragment_location"
         android:name="com.example.acrylon3.ascara.Location_Fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_location" />
-
 
     <Button
         android:id="@+id/search_btn"
@@ -79,5 +78,7 @@
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation" />
+
+
 
 </LinearLayout>
