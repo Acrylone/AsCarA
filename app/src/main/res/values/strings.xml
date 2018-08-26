@@ -9,6 +9,7 @@
     <string name="txt_btn_start">PICKUP</string>
     <string name="txt_btn_end">RETURN</string>
     <string name="txt_btn_search">SEARCH</string>
+    <string name="txt_confirm">CONFIRM</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

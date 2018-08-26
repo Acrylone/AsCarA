@@ -1,9 +1,7 @@
 package com.example.acrylon3.ascara;
 
 import android.app.DatePickerDialog;
-import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -146,35 +144,32 @@ public class MainActivity extends AppCompatActivity implements
 
                 final TimePickerDialog timePickerDialog = new TimePickerDialog(
                         MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                        android.R.style.Theme_Holo_Dialog_MinWidth,
                         mTimeSetListenerStart,
                         hour, minute, true);
                 timePickerDialog.setTitle("Choose Hour:");
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                timePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        // This is hiding the "Cancel" button:
-                        timePickerDialog.getButton(Dialog.BUTTON_NEGATIVE).setVisibility(View.GONE);
-                    }
-                });
+                timePickerDialog.setCancelable(false);
                 timePickerDialog.show();
+
 
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(
                         MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                        android.R.style.Theme_Holo_Dialog_MinWidth,
                         mDateSetListenerStart,
                         year, month, day);
+//                datePickerDialog.setButton("CONFIRM",
+//                        new DialogInterface.OnClickListener() {
+//                            public void onClick(DialogInterface dialog,int which) {
+//                                timePickerDialog.show();
+//
+//
+//                            }
+//                        });
                 datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        // This is hiding the "Cancel" button:
-                        datePickerDialog.getButton(Dialog.BUTTON_NEGATIVE).setVisibility(View.GONE);
-                    }
-                });
+//                datePickerDialog.setIcon();
+                datePickerDialog.setCancelable(false);
                 datePickerDialog.show();
-
             }
         });
 
@@ -183,7 +178,8 @@ public class MainActivity extends AppCompatActivity implements
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 Log.d(LOG_TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
-                dateStart = day + "/" + month + "/" + year;
+                dateStart = String.format("%02d/%02d/%04d",day , month, year );
+//                dateStart = day + "/" + month + "/" + year;
             }
         };
 
@@ -222,6 +218,7 @@ public class MainActivity extends AppCompatActivity implements
                         hour , minute, true);
                 timePickerDialog.setTitle("Choose Hour:");
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+                timePickerDialog.setCancelable(false);
                 timePickerDialog.show();
 
                 DatePickerDialog dialog = new DatePickerDialog(
