@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity implements
     private PlaceArrayAdapter mPlaceArrayAdapter;
     private Location mylocation;
 
+
     private final static int REQUEST_CHECK_SETTINGS_GPS = 0x1;
     private final static int REQUEST_ID_MULTIPLE_PERMISSIONS = 0x2;
     private final static int TIME_PICKER_INTERVAL = 5;
@@ -68,8 +69,7 @@ public class MainActivity extends AppCompatActivity implements
     private Button location, start, end, search;
 
     View fragment_location;
-    View fragment_start;
-    View fragment_end;
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -100,13 +100,13 @@ public class MainActivity extends AppCompatActivity implements
 
 //        setSupportActionBar(toolbar);
         fragment_location = findViewById(R.id.fragment_location);
-        fragment_start = findViewById(R.id.fragment_start);
 //////////////////////////////GOOGLE API PLACES/////////////////////////////////////////////////////
-        mGoogleApiClient = new GoogleApiClient.Builder(MainActivity.this)
+        mGoogleApiClient = new GoogleApiClient.Builder(getBaseContext())
                 .addApi(Places.GEO_DATA_API)
                 .enableAutoManage(this, GOOGLE_API_CLIENT_ID, this)
                 .addConnectionCallbacks(this)
                 .build();
+//        mGoogleApiClient.connect();
         mAutocompleteTextView = (AutoCompleteTextView) findViewById(R.id
                 .location_editxt);
         mAutocompleteTextView.setThreshold(3);

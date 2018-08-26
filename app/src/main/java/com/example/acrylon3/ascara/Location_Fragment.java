@@ -1,6 +1,7 @@
 package com.example.acrylon3.ascara;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Criteria;
@@ -62,7 +63,7 @@ public class Location_Fragment extends Fragment implements LocationListener{
                     ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                 return;
             }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, (LocationListener) Location_Fragment.this);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, Location_Fragment.this);
             Criteria criteria = new Criteria();
             String bestProvider = locationManager.getBestProvider(criteria, true);
             Location location = locationManager.getLastKnownLocation(bestProvider);
@@ -97,12 +98,15 @@ public class Location_Fragment extends Fragment implements LocationListener{
                 String city = addresses.get(0).getLocality();
                 String state = addresses.get(0).getAdminArea();
                 String country = addresses.get(0).getCountryName();
-                String postalCode = addresses.get(0).getPostalCode();
-                String knownName = addresses.get(0).getFeatureName();
+//                String postalCode = addresses.get(0).getPostalCode();
+//                String knownName = addresses.get(0).getFeatureName();
 
-                setPosition_button.setText(state + " , " + city + " , " + country + "\n");
-                setPosition_button.setText(address + " , " + knownName + " , " + postalCode);
-            }
+                location_edit.setText(address + ", " +state + " , " + city + " , " + country + "\n");
+//                String locationS = location_edit.getText().toString();
+                Intent newActivityIntent=new Intent(getActivity(),MainActivity.class);
+                newActivityIntent.putExtra("locationS",location_edit.getText());
+                startActivity(newActivityIntent);
+                }
         } catch (IOException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
