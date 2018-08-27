@@ -22,36 +22,52 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:hint="@string/txt_btn_location" />
+            android:textSize="@dimen/R_BIG_text_size"
+            android:textColor="@color/white"
+            android:background="@drawable/where"
+            android:textColorHint="@color/white"
+            android:text="@string/txt_btn_location" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:background="#000000" />
+            android:layout_height="5dip"
+            android:background="@color/white"/>
 
         <Button
             android:id="@+id/start_location_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:elevation="20sp"
+            android:padding="@dimen/padding"
             android:layout_weight="1"
-            android:hint="@string/txt_btn_start" />
+            android:textSize="@dimen/R_BIG_text_size"
+            android:textColor="@color/white"
+            android:textColorHighlight="@color/white"
+            android:background="@drawable/pickuplocation"
+            android:text="@string/txt_btn_start" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:background="#000000" />
+            android:layout_height="5dip"
+            android:background="@color/white" />
 
         <Button
             android:id="@+id/end_location_btn"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:elevation="20sp"
             android:layout_weight="1"
-            android:hint="@string/txt_btn_end" />
+            android:textSize="@dimen/R_BIG_text_size"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
+            android:padding="@dimen/padding"
+            android:background="@drawable/returnlocation"
+            android:text="@string/txt_btn_end" />
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="2dip"
-            android:background="#000000" />
+            android:layout_height="5dip"
+            android:background="@color/white" />
 
 
     </LinearLayout>
@@ -68,6 +84,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:background="@drawable/lineartext"
+        android:textSize="@dimen/BIG_text_size"
         android:text="@string/txt_btn_search" />
 
 

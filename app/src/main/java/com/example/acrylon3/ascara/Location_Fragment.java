@@ -103,9 +103,9 @@ public class Location_Fragment extends Fragment implements LocationListener{
 
                 location_edit.setText(address + ", " +state + " , " + city + " , " + country + "\n");
 //                String locationS = location_edit.getText().toString();
-                Intent newActivityIntent=new Intent(getActivity(),MainActivity.class);
-                newActivityIntent.putExtra("locationS",location_edit.getText());
-                startActivity(newActivityIntent);
+//                Intent newActivityIntent=new Intent(getActivity(),MainActivity.class);
+//                newActivityIntent.putExtra("locationS",location_edit.getText());
+//                startActivity(newActivityIntent);
                 }
         } catch (IOException e) {
             // TODO Auto-generated catch block

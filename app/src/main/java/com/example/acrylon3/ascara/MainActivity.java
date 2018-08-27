@@ -18,6 +18,7 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements
     private final static int REQUEST_ID_MULTIPLE_PERMISSIONS = 0x2;
     private final static int TIME_PICKER_INTERVAL = 5;
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
-            new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
+            new LatLng(31.794177, 35.187660), new LatLng(31.794177, 35.187660));
 
     String timeStart = "";
     String timeEnd = "";
@@ -67,7 +68,6 @@ public class MainActivity extends AppCompatActivity implements
     private Button location, start, end, search;
 
     View fragment_location;
-
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        location = (Button) findViewById(R.id.location_btn);
+        location = findViewById(R.id.location_btn);
         location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -130,11 +130,10 @@ public class MainActivity extends AppCompatActivity implements
         });
 /////////////////////////////START BUTTON///////////////////////////////////////////////////////////
 
-        start = (Button) findViewById(R.id.start_location_btn);
+        start = findViewById(R.id.start_location_btn);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                fragment_start.setVisibility(View.VISIBLE);
                 Calendar cal = Calendar.getInstance();
                 int year = cal.get(Calendar.YEAR);
                 int month = cal.get(Calendar.MONTH);
@@ -144,26 +143,22 @@ public class MainActivity extends AppCompatActivity implements
 
                 final TimePickerDialog timePickerDialog = new TimePickerDialog(
                         MainActivity.this,
-                        android.R.style.Theme_Holo_Dialog_MinWidth,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mTimeSetListenerStart,
                         hour, minute, true);
-                timePickerDialog.setTitle("Choose Hour:");
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 timePickerDialog.setCancelable(false);
                 timePickerDialog.show();
 
-
                 final DatePickerDialog datePickerDialog = new DatePickerDialog(
                         MainActivity.this,
-                        android.R.style.Theme_Holo_Dialog_MinWidth,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mDateSetListenerStart,
                         year, month, day);
 //                datePickerDialog.setButton("CONFIRM",
 //                        new DialogInterface.OnClickListener() {
 //                            public void onClick(DialogInterface dialog,int which) {
 //                                timePickerDialog.show();
-//
-//
 //                            }
 //                        });
                 datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
@@ -178,7 +173,7 @@ public class MainActivity extends AppCompatActivity implements
             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
                 month = month + 1;
                 Log.d(LOG_TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
-                dateStart = String.format("%02d/%02d/%04d",day , month, year );
+                dateStart = String.format("%02d/%02d/%04d", day, month, year);
 //                dateStart = day + "/" + month + "/" + year;
             }
         };
@@ -187,20 +182,13 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                 Log.d(LOG_TAG, "onTimeSet: HH:MM: " + hour + "/" + minute);
-                timeStart = String.format("%02d:%02d",hour , minute);
+                timeStart = String.format("%02d:%02d", hour, minute);
                 start.setText("PICKUP : \n" + dateStart + "\n" + timeStart);
             }
         };
 
-
-
-
-
-
-//        start.setText("PICKUP : \n" + date + "\n" + time);
-
 ///////////////////////////END BUTTON /////////////////////////////////////////////////////////////
-        end = (Button) findViewById(R.id.end_location_btn);
+        end = findViewById(R.id.end_location_btn);
         end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -213,9 +201,9 @@ public class MainActivity extends AppCompatActivity implements
 
                 TimePickerDialog timePickerDialog = new TimePickerDialog(
                         MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_NoActionBar,
+                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
                         mTimeSetListenerEnd,
-                        hour , minute, true);
+                        hour, minute, true);
                 timePickerDialog.setTitle("Choose Hour:");
                 timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
                 timePickerDialog.setCancelable(false);
@@ -245,12 +233,12 @@ public class MainActivity extends AppCompatActivity implements
             @Override
             public void onTimeSet(TimePicker timePicker, int hour, int minute) {
                 Log.d(LOG_TAG, "onTimeSet: HH:MM: " + hour + "/" + minute);
-                timeEnd = String.format("%02d:%02d",hour , minute);
+                timeEnd = String.format("%02d:%02d", hour, minute);
                 end.setText("RETURN : \n" + dateEnd + "\n" + timeEnd);
             }
         };
 ////////////////////////////SEARCH BUTTON///////////////////////////////////////////////////////////
-        search = (Button) findViewById(R.id.search_btn);
+        search = findViewById(R.id.search_btn);
         search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -261,10 +249,8 @@ public class MainActivity extends AppCompatActivity implements
     }
 
     /*******************END OFCREATE***/////////////////////////////////////////////////////////////
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        if(fragment_location.isShown())
         getMenuInflater().inflate(R.menu.menu_done, menu);
         return true;
     }
