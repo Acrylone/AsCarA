@@ -1,7 +1,12 @@
 package com.example.acrylon3.ascara;
 
+import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -19,6 +24,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -34,6 +40,8 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -45,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements
     private GoogleApiClient mGoogleApiClient;
     private PlaceArrayAdapter mPlaceArrayAdapter;
     private Location mylocation;
+    CustomDateTimePicker custom;
 
 
     private final static int REQUEST_CHECK_SETTINGS_GPS = 0x1;
@@ -63,7 +72,6 @@ public class MainActivity extends AppCompatActivity implements
     private DatePickerDialog.OnDateSetListener mDateSetListenerEnd;
     private TimePickerDialog.OnTimeSetListener mTimeSetListenerEnd;
 
-    Toolbar toolbar;
     private TextView mTextMessage;
     private Button location, start, end, search;
 
@@ -96,7 +104,10 @@ public class MainActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+        getSupportActionBar().setCustomView(R.layout.abs_layout);
+        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.logo));
+
         fragment_location = findViewById(R.id.fragment_location);
 //////////////////////////////GOOGLE API PLACES/////////////////////////////////////////////////////
         mGoogleApiClient = new GoogleApiClient.Builder(getBaseContext())
@@ -130,64 +141,114 @@ public class MainActivity extends AppCompatActivity implements
         });
 /////////////////////////////START BUTTON///////////////////////////////////////////////////////////
 
+        custom = new CustomDateTimePicker(this,
+                new CustomDateTimePicker.ICustomDateTimeListener() {
+
+                    @Override
+                    public void onSet(Dialog dialog, Calendar calendarSelected,
+                                      Date dateSelected, int year, String monthFullName,
+                                      String monthShortName, int monthNumber, int date,
+                                      String weekDayFullName, String weekDayShortName,
+                                      int hour24, int hour12, int min, int sec,
+                                      String AM_PM) {
+                        //                        ((TextInputEditText) findViewById(R.id.edtEventDateTime))
+                        start.setText("");
+                        start.setText(year
+                                + "-" + (monthNumber + 1) + "-" + calendarSelected.get(Calendar.DAY_OF_MONTH)
+                                + " " + hour24 + ":" + min
+                                + ":" + sec);
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+        /**
+         * Pass Directly current time format it will return AM and PM if you set
+         * false
+         */
+        custom.set24HourFormat(true);
+        /**
+         * Pass Directly current data and time to show when it pop up
+         */
+        custom.setDate(Calendar.getInstance());
         start = findViewById(R.id.start_location_btn);
         start.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DAY_OF_MONTH);
-                int hour = cal.get(Calendar.HOUR_OF_DAY);
-                int minute = cal.get(Calendar.MINUTE);
+                custom.showDialog();
 
-                final TimePickerDialog timePickerDialog = new TimePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mTimeSetListenerStart,
-                        hour, minute, true);
-                timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-                timePickerDialog.setCancelable(false);
-                timePickerDialog.show();
-
-                final DatePickerDialog datePickerDialog = new DatePickerDialog(
-                        MainActivity.this,
-                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
-                        mDateSetListenerStart,
-                        year, month, day);
-//                datePickerDialog.setButton("CONFIRM",
-//                        new DialogInterface.OnClickListener() {
-//                            public void onClick(DialogInterface dialog,int which) {
-//                                timePickerDialog.show();
-//                            }
-//                        });
-                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
-//                datePickerDialog.setIcon();
-                datePickerDialog.setCancelable(false);
-                datePickerDialog.show();
             }
         });
-
-        mDateSetListenerStart = new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                month = month + 1;
-                Log.d(LOG_TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
-                dateStart = String.format("%02d/%02d/%04d", day, month, year);
-//                dateStart = day + "/" + month + "/" + year;
-            }
-        };
-
-        mTimeSetListenerStart = new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
-                Log.d(LOG_TAG, "onTimeSet: HH:MM: " + hour + "/" + minute);
-                timeStart = String.format("%02d:%02d", hour, minute);
-                start.setText("PICKUP : \n" + dateStart + "\n" + timeStart);
-            }
-        };
+//                Calendar cal = Calendar.getInstance();
+//                int year = cal.get(Calendar.YEAR);
+//                int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DAY_OF_MONTH);
+//                int hour = cal.get(Calendar.HOUR_OF_DAY);
+//                int minute = cal.get(Calendar.MINUTE);
+//
+//                final TimePickerDialog timePickerDialog = new TimePickerDialog(
+//                        MainActivity.this,
+//                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+//                        mTimeSetListenerStart,
+//                        hour, minute, true);
+////                ProgressBar progressBar = new ProgressBar(MainActivity.this);
+////                progressBar.setVisibility(View.VISIBLE);
+////                progressBar.setIndeterminate(true);
+//
+//                timePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//                    @Override
+//                    public void onShow(DialogInterface dialog) {
+//                        // This is hiding the "Cancel" button:
+//                        timePickerDialog.getButton(Dialog.BUTTON_NEGATIVE).setVisibility(View.GONE);
+//                    }
+//                });
+//                timePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//                timePickerDialog.setCancelable(false);
+//                timePickerDialog.show();
+//
+////                progressBar.setVisibility(View.GONE);
+//                final DatePickerDialog datePickerDialog = new DatePickerDialog(
+//                        MainActivity.this,
+//                        android.R.style.Theme_Holo_Light_Dialog_MinWidth,
+//                        mDateSetListenerStart,
+//                        year, month, day);
+//
+//                datePickerDialog.setOnShowListener(new DialogInterface.OnShowListener() {
+//                    @Override
+//                    public void onShow(DialogInterface dialog) {
+//                        // This is hiding the "Cancel" button:
+//                        datePickerDialog.getButton(Dialog.BUTTON_NEGATIVE).setVisibility(View.GONE);
+//                    }
+//                });
+//                datePickerDialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+//                datePickerDialog.setCancelable(false);
+//                datePickerDialog.show();
+//            }
+//        });
+//
+//        mDateSetListenerStart = new DatePickerDialog.OnDateSetListener() {
+//            @Override
+//            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+//                month = month + 1;
+//                Log.d(LOG_TAG, "onDateSet: dd/mm/yyy: " + day + "/" + month + "/" + year);
+//                dateStart = String.format("%02d/%02d/%04d", day, month, year);
+////        dateStart = day + "/" + month + "/" + year;
+//            }
+//        };
+//
+//        mTimeSetListenerStart = new TimePickerDialog.OnTimeSetListener() {
+//            @Override
+//            public void onTimeSet(TimePicker timePicker, int hour, int minute) {
+//                Log.d(LOG_TAG, "onTimeSet: HH:MM: " + hour + "/" + minute);
+//                timeStart = String.format("%02d:%02d", hour, minute);
+//                start.setText(dateStart + "\n" + timeStart);
+//            }
+//        };
 
 ///////////////////////////END BUTTON /////////////////////////////////////////////////////////////
+
         end = findViewById(R.id.end_location_btn);
         end.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -237,6 +298,7 @@ public class MainActivity extends AppCompatActivity implements
                 end.setText("RETURN : \n" + dateEnd + "\n" + timeEnd);
             }
         };
+
 ////////////////////////////SEARCH BUTTON///////////////////////////////////////////////////////////
         search = findViewById(R.id.search_btn);
         search.setOnClickListener(new View.OnClickListener() {
@@ -248,9 +310,11 @@ public class MainActivity extends AppCompatActivity implements
         });
     }
 
+
     /*******************END OFCREATE***/////////////////////////////////////////////////////////////
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+//        if(fragment_location.isShown())
         getMenuInflater().inflate(R.menu.menu_done, menu);
         return true;
     }

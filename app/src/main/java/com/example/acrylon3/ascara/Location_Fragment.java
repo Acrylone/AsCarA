@@ -1,5 +1,7 @@
 package com.example.acrylon3.ascara;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,6 +15,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,12 +24,15 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
 
-public class Location_Fragment extends Fragment implements LocationListener{
+public class Location_Fragment extends Fragment implements OnMapReadyCallback {
 
     private static final String LOG_TAG = "MainActivity";
 
@@ -40,6 +46,7 @@ public class Location_Fragment extends Fragment implements LocationListener{
     private Button setPosition_button;
     private View line;
     private Context applicationContext;
+    private GoogleMap mMap;
 
     @Nullable
     @Override
@@ -58,83 +65,45 @@ public class Location_Fragment extends Fragment implements LocationListener{
     private View.OnClickListener btnPositionListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            LocationManager locationManager = (LocationManager) getContext().getSystemService(Context.LOCATION_SERVICE);
-            if (ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
-                    ActivityCompat.checkSelfPermission(getContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                return;
-            }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 30000, 0, Location_Fragment.this);
-            Criteria criteria = new Criteria();
-            String bestProvider = locationManager.getBestProvider(criteria, true);
-            Location location = locationManager.getLastKnownLocation(bestProvider);
-
-            if (location == null) {
-                Toast.makeText(getApplicationContext(), "GPS signal not found", Toast.LENGTH_SHORT).show();
-            }
-            if (location != null) {
-                Log.e("locatin", "location--" + location);
-
-                Log.e("latitude at beginning",
-                        "@@@@@@@@@@@@@@@" + location.getLatitude());
-                onLocationChanged(location);
-            }
+            mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+                @Override
+                public void onMyLocationChange(android.location.Location location) {
+                    //...
+                }
+            });
         }
+
     };
 
-    public void onLocationChanged(Location location) {
-        Geocoder geocoder;
-        List<Address> addresses;
-        geocoder = new Geocoder(getActivity(), Locale.getDefault());
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
 
-        double latitude = location.getLatitude();
-        double longitude = location.getLongitude();
+        mMap = googleMap;
 
-        Log.e("latitude", "latitude--" + latitude);
-        try {
-            Log.e("latitude", "inside latitude--" + latitude);
-            addresses = geocoder.getFromLocation(latitude, longitude, 1);
-            if (addresses != null && addresses.size() > 0) {
-                String address = addresses.get(0).getAddressLine(0);
-                String city = addresses.get(0).getLocality();
-                String state = addresses.get(0).getAdminArea();
-                String country = addresses.get(0).getCountryName();
-//                String postalCode = addresses.get(0).getPostalCode();
-//                String knownName = addresses.get(0).getFeatureName();
-
-                location_edit.setText(address + ", " +state + " , " + city + " , " + country + "\n");
-//                String locationS = location_edit.getText().toString();
-//                Intent newActivityIntent=new Intent(getActivity(),MainActivity.class);
-//                newActivityIntent.putExtra("locationS",location_edit.getText());
-//                startActivity(newActivityIntent);
-                }
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+        //Show my location button
+        if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
         }
-    }
+        mMap.setMyLocationEnabled(true);
 
-    @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-        Log.i(TAG, "Provider " + s + " has now status: " + i);
-
-    }
-
-    @Override
-    public void onProviderEnabled(String s) {
-        Log.i(TAG, "Provider " + s + " is enabled");
-
-    }
-
-    @Override
-    public void onProviderDisabled(String s) {
-        Log.i(TAG, "Provider " + s + " is disabled");
-
-    }
-
-    private static final String TAG = "LocationAddress";
-
-
-    public Context getApplicationContext() {
-        return applicationContext;
+            mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+                @SuppressLint("DefaultLocale")
+                @Override
+                public boolean onMyLocationButtonClick() {
+                    //Do something with your location. You can use mMap.getMyLocation();
+                    //anywhere in this class to get user location
+                    Toast.makeText(getContext(), String.format("%f : %f",
+                            mMap.getMyLocation().getLatitude(), mMap.getMyLocation().getLongitude()),
+                            Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+            });
     }
 }
