@@ -1,12 +1,10 @@
 package com.example.acrylon3.ascara;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -23,12 +21,9 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -41,7 +36,6 @@ import com.google.android.gms.maps.model.LatLngBounds;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 public class MainActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener,
@@ -144,6 +138,7 @@ public class MainActivity extends AppCompatActivity implements
         custom = new CustomDateTimePicker(this,
                 new CustomDateTimePicker.ICustomDateTimeListener() {
 
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onSet(Dialog dialog, Calendar calendarSelected,
                                       Date dateSelected, int year, String monthFullName,
@@ -153,10 +148,8 @@ public class MainActivity extends AppCompatActivity implements
                                       String AM_PM) {
                         //                        ((TextInputEditText) findViewById(R.id.edtEventDateTime))
                         start.setText("");
-                        start.setText(year
-                                + "-" + (monthNumber + 1) + "-" + calendarSelected.get(Calendar.DAY_OF_MONTH)
-                                + " " + hour24 + ":" + min
-                                + ":" + sec);
+                        start.setText(weekDayShortName+ " " + calendarSelected.get(Calendar.DAY_OF_MONTH) + " " + monthShortName + "." + "\n"
+                                + hour24 + ":" + min);
                     }
 
                     @Override

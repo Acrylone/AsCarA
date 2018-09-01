@@ -110,12 +110,14 @@ public class CustomDateTimePicker implements View.OnClickListener {
             }
         });
 
+        datePicker.setMinDate(System.currentTimeMillis() - 1000);
         viewSwitcher.addView(timePicker);
         viewSwitcher.addView(datePicker);
 
         LinearLayout linear_bottom = new LinearLayout(activity);
         linear_match_wrap.topMargin = 8;
         linear_bottom.setLayoutParams(linear_match_wrap);
+
 
         btn_set = new Button(activity);
         btn_set.setLayoutParams(button_params);
@@ -308,15 +310,12 @@ public class CustomDateTimePicker implements View.OnClickListener {
     }
 
     /**
-     * @param date
-     *            date in String
-     * @param fromFormat
-     *            format of your <b>date</b> eg: if your date is 2011-07-07
-     *            09:09:09 then your format will be <b>yyyy-MM-dd hh:mm:ss</b>
-     * @param toFormat
-     *            format to which you want to convert your <b>date</b> eg: if
-     *            required format is 31 July 2011 then the toFormat should be
-     *            <b>d MMMM yyyy</b>
+     * @param date       date in String
+     * @param fromFormat format of your <b>date</b> eg: if your date is 2011-07-07
+     *                   09:09:09 then your format will be <b>yyyy-MM-dd hh:mm:ss</b>
+     * @param toFormat   format to which you want to convert your <b>date</b> eg: if
+     *                   required format is 31 July 2011 then the toFormat should be
+     *                   <b>d MMMM yyyy</b>
      * @return formatted date
      */
     public static String convertDate(String date, String fromFormat,
