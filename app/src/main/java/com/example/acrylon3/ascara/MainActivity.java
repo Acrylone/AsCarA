@@ -2,12 +2,7 @@ package com.example.acrylon3.ascara;
 
 import android.annotation.SuppressLint;
 import android.app.ActionBar;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -20,9 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.common.ConnectionResult;
@@ -185,7 +178,7 @@ public class MainActivity extends AppCompatActivity implements
 
                         end.setText("");
                         end.setText(weekDayShortName + " " + calendarSelected.get(Calendar.DAY_OF_MONTH) + " " + monthShortName + "." + "\n"
-                                + hour24 + ":" + String.format("%02d", min));
+                                + String.format("%02d", hour24) + ":" + String.format("%02d", min));
 
 
                     }

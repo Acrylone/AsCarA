@@ -22,6 +22,7 @@ public class CustomDateTimePicker implements View.OnClickListener {
     private TimePicker timePicker;
     private ViewSwitcher viewSwitcher;
 
+    private final static int TIME_PICKER_INTERVAL = 5;
     private final int SET_DATE = 100, SET_TIME = 101, SET = 102, CANCEL = 103;
 
     private Button btn_setDate, btn_setTime, btn_set, btn_cancel;
@@ -40,6 +41,7 @@ public class CustomDateTimePicker implements View.OnClickListener {
 
     public CustomDateTimePicker(Activity a,
                                 ICustomDateTimeListener customDateTimeListener) {
+
         activity = a;
         iCustomDateTimeListener = customDateTimeListener;
 
@@ -50,6 +52,7 @@ public class CustomDateTimePicker implements View.OnClickListener {
                 resetData();
             }
         });
+
 
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         View dialogView = getDateTimePickerLayout();
@@ -155,6 +158,7 @@ public class CustomDateTimePicker implements View.OnClickListener {
             timePicker.setIs24HourView(is24HourView);
             timePicker.setCurrentHour(selectedHour);
             timePicker.setCurrentMinute(selectedMinute);
+
 
             pad(selectedMinute);
 

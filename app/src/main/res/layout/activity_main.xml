@@ -74,8 +74,8 @@
                 android:layout_gravity="left|center"
                 android:layout_marginLeft="@dimen/margin_left"
                 android:layout_weight="1"
-                android:background="@drawable/icon_start" />
-
+                 />
+            android:background="@drawable/icon_start"
         </FrameLayout>
 
         <View
@@ -106,7 +106,8 @@
                 android:layout_gravity="left|center"
                 android:layout_marginLeft="@dimen/margin_left"
                 android:layout_weight="1"
-                android:background="@drawable/icon_end" />
+                 />
+            android:background="@drawable/icon_end"
         </FrameLayout>
 
         <View
@@ -130,9 +131,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/lineartext"
         android:text="@string/txt_btn_search"
         android:textSize="@dimen/BIG_text_size" />
+    android:background="@drawable/lineartext"
 
 
     <android.support.design.widget.BottomNavigationView
