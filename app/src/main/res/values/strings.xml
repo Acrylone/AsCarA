@@ -5,7 +5,7 @@
     <string name="title_right">Account</string>
     <string name="your_position">Your Position</string>
 
-    <string name="txt_btn_location">RENTAL ADDRESS</string>
+    <string name="txt_btn_location">RENTAL \n ADDRESS</string>
     <string name="txt_btn_start">PICKUP</string>
     <string name="txt_btn_end">RETURN</string>
     <string name="txt_btn_search">SEARCH</string>

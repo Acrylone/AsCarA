@@ -151,9 +151,12 @@ public class CustomDateTimePicker implements View.OnClickListener {
             selectedHour = calendar_date.get(Calendar.HOUR_OF_DAY);
             selectedMinute = calendar_date.get(Calendar.MINUTE);
 
+
             timePicker.setIs24HourView(is24HourView);
             timePicker.setCurrentHour(selectedHour);
             timePicker.setCurrentMinute(selectedMinute);
+
+            pad(selectedMinute);
 
             datePicker.updateDate(calendar_date.get(Calendar.YEAR),
                     calendar_date.get(Calendar.MONTH),
@@ -192,7 +195,6 @@ public class CustomDateTimePicker implements View.OnClickListener {
             calendar_date = Calendar.getInstance();
             calendar_date.set(year, month, day);
         }
-
     }
 
     public void setTimeIn24HourFormat(int hourIn24Format, int minute) {
@@ -239,13 +241,13 @@ public class CustomDateTimePicker implements View.OnClickListener {
     }
 
     public interface ICustomDateTimeListener {
-        public void onSet(Dialog dialog, Calendar calendarSelected,
-                          Date dateSelected, int year, String monthFullName,
-                          String monthShortName, int monthNumber, int date,
-                          String weekDayFullName, String weekDayShortName, int hour24,
-                          int hour12, int min, int sec, String AM_PM);
+        void onSet(Dialog dialog, Calendar calendarSelected,
+                   Date dateSelected, int year, String monthFullName,
+                   String monthShortName, int monthNumber, int date,
+                   String weekDayFullName, String weekDayShortName, int hour24,
+                   int hour12, int min, int sec, String AM_PM);
 
-        public void onCancel();
+        void onCancel();
     }
 
     @Override
