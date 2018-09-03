@@ -74,8 +74,9 @@
                 android:layout_gravity="left|center"
                 android:layout_marginLeft="@dimen/margin_left"
                 android:layout_weight="1"
-                 />
-            android:background="@drawable/icon_start"
+                android:background="@drawable/icon_start"
+
+                />
         </FrameLayout>
 
         <View
@@ -106,8 +107,8 @@
                 android:layout_gravity="left|center"
                 android:layout_marginLeft="@dimen/margin_left"
                 android:layout_weight="1"
-                 />
-            android:background="@drawable/icon_end"
+                android:background="@drawable/icon_end"
+                />
         </FrameLayout>
 
         <View
@@ -125,6 +126,11 @@
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_location" />
 
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/map"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+    </com.google.android.gms.maps.MapView>
 
     <Button
         android:id="@+id/search_btn"
@@ -143,6 +149,7 @@
         android:layout_gravity="bottom"
         android:background="?android:attr/windowBackground"
         app:menu="@menu/navigation" />
+
 
 
 </LinearLayout>

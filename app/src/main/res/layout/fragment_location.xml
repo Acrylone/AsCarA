@@ -35,4 +35,13 @@
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:id="@+id/current_address"
+        android:text="TEXT"
+        android:layout_below="@+id/poweredBy"
+        android:layout_centerVertical="true"
+        android:layout_margin="@dimen/margin_bottom"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
 </RelativeLayout>
