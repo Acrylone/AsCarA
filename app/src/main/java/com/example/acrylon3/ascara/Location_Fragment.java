@@ -1,42 +1,24 @@
 package com.example.acrylon3.ascara;
 
-import android.Manifest;
-import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Criteria;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.util.Log;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.OnMapReadyCallback;
-
-import java.io.IOException;
-import java.util.List;
-import java.util.Locale;
-
-import static android.content.Context.LOCATION_SERVICE;
 
 
 public class Location_Fragment extends Fragment {
@@ -58,12 +40,14 @@ public class Location_Fragment extends Fragment {
     private GoogleApiClient googleApiClient;
     private MainActivity mainActivity;
 
+    View fragment_location;
+    View rootView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_location, container, false);
-        rootView.setVisibility(View.GONE);
+        rootView = inflater.inflate(R.layout.fragment_location, container, false);
+        setHasOptionsMenu(true);
         location_edit = rootView.findViewById(R.id.location_editxt);
         setPosition_button = rootView.findViewById(R.id.set_position_btn);
         setPosition_button.setOnClickListener(btnPositionListener);
@@ -79,4 +63,31 @@ public class Location_Fragment extends Fragment {
         public void onClick(View view) {
         }
     };
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.menu_done, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Fragment fragment = null;
+
+        switch (item.getItemId()) {
+            case R.id.action_menu_done:
+                rootView.setVisibility(View.GONE);
+                fragment = new SearchFragment();
+                replaceFragment(fragment);
+                break;
+        }
+        return true;
+    }
+
+    public void replaceFragment(Fragment someFragment) {
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.replace(R.id.content, someFragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
 }
