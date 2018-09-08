@@ -1,5 +1,7 @@
 package com.example.acrylon3.ascara;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
 import android.location.Location;
 import android.location.LocationListener;
@@ -17,6 +19,9 @@ import android.widget.Button;
 
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.maps.GoogleMap;
+
+import java.util.Calendar;
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -46,6 +51,9 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
     private MainActivity mainActivity;
+    CustomDateTimePicker customStart;
+    CustomDateTimePicker customEnd;
+
 
     View fragment_location;
 
@@ -61,8 +69,17 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
 
         location.setOnClickListener(this);
         start.setOnClickListener(this);
-        location.setOnClickListener(this);
-        location.setOnClickListener(this);
+        end.setOnClickListener(this);
+        search.setOnClickListener(this);
+
+        Bundle bundle = getArguments();
+        if (bundle != null)
+        {
+            String currentAddress = bundle.getString("Address", "");
+            location.setText(currentAddress);
+            if(currentAddress.isEmpty())
+                location.setText(R.string.txt_btn_location);
+        }
 
         return rootView;
 //        return inflater.inflate(R.layout.fragment_search, container, false);
@@ -78,10 +95,15 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 replaceFragment(fragment);
                 break;
 
-//            case R.id.phbookButton:
-//                fragment = new PhoneBookFragment();
-//                replaceFragment(fragment);
-//                break;
+            case R.id.start_location_btn:
+                startLocation();
+                customStart.showDialog();
+                break;
+
+            case R.id.end_location_btn:
+                endLocation();
+                customEnd.showDialog();
+                break;
         }
     }
 
@@ -90,6 +112,76 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         transaction.replace(R.id.content, someFragment);
         transaction.addToBackStack(null);
         transaction.commit();
+    }
+
+    public void startLocation() {
+        customStart = new CustomDateTimePicker(getActivity(),
+                new CustomDateTimePicker.ICustomDateTimeListener() {
+
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+                    @Override
+                    public void onSet(Dialog dialog, Calendar calendarSelected,
+                                      Date dateSelected, int year, String monthFullName,
+                                      String monthShortName, int monthNumber, int date,
+                                      String weekDayFullName, String weekDayShortName,
+                                      int hour24, int hour12, int min, int sec,
+                                      String AM_PM) {
+                        //                        ((TextInputEditText) findViewById(R.id.edtEventDateTime))
+                        start.setText("");
+                        start.setText(weekDayShortName + " " + calendarSelected.get(Calendar.DAY_OF_MONTH) + " " + monthShortName + "." + "\n"
+                                + hour24 + ":" + String.format("%02d", min));
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+        /**
+         * Pass Directly current time format it will return AM and PM if you set
+         * false
+         */
+        customStart.set24HourFormat(true);
+        /**
+         * Pass Directly current data and time to show when it pop up
+         */
+        customStart.setDate(Calendar.getInstance());
+
+    }
+
+    public void endLocation() {
+        customEnd = new CustomDateTimePicker(getActivity(),
+                new CustomDateTimePicker.ICustomDateTimeListener() {
+
+                    @SuppressLint({"SetTextI18n", "DefaultLocale"})
+                    @Override
+                    public void onSet(Dialog dialog, Calendar calendarSelected,
+                                      Date dateSelected, int year, String monthFullName,
+                                      String monthShortName, int monthNumber, int date,
+                                      String weekDayFullName, String weekDayShortName,
+                                      int hour24, int hour12, int min, int sec,
+                                      String AM_PM) {
+                        //                        ((TextInputEditText) findViewById(R.id.edtEventDateTime))
+                        end.setText("");
+                        end.setText(weekDayShortName + " " + calendarSelected.get(Calendar.DAY_OF_MONTH) + " " + monthShortName + "." + "\n"
+                                + hour24 + ":" + String.format("%02d", min));
+                    }
+
+                    @Override
+                    public void onCancel() {
+
+                    }
+                });
+        /**
+         * Pass Directly current time format it will return AM and PM if you set
+         * false
+         */
+        customEnd.set24HourFormat(true);
+        /**
+         * Pass Directly current data and time to show when it pop up
+         */
+        customEnd.setDate(Calendar.getInstance());
+
     }
 
     private static final String ARG_PARAM1 = "param1";
@@ -105,15 +197,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SearchFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SearchFragment newInstance(String param1, String param2) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
@@ -130,10 +213,10 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
     }
 
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -155,16 +238,6 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);

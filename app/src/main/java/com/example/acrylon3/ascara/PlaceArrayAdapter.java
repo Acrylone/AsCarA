@@ -37,8 +37,9 @@ public class PlaceArrayAdapter
      * @param bounds   Used to specify the search bounds
      * @param filter   Used to specify place types
      */
-    public PlaceArrayAdapter(Context context, int resource, LatLngBounds bounds,
-                             AutocompleteFilter filter) {
+
+    PlaceArrayAdapter(Context context, int resource, LatLngBounds bounds,
+                      AutocompleteFilter filter) {
         super(context, resource);
         mBounds = bounds;
         mPlaceFilter = filter;

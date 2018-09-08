@@ -37,7 +37,9 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.abs_layout);
+        getSupportActionBar().setBackgroundDrawable(getDrawable(R.color.white));
 //        getSupportActionBar().setBackgroundDrawable(getResources().getDrawable(R.drawable.logo));
+
 
         navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

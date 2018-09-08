@@ -23,9 +23,11 @@ public class GetAddressIntentService extends IntentService {
     }
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        String msg = "";
+        String msg;
         //get result receiver from intent
-        addressResultReceiver = intent.getParcelableExtra("add_receiver");
+        if (intent != null) {
+            addressResultReceiver = intent.getParcelableExtra("add_receiver");
+        }
 
         if (addressResultReceiver == null) {
             Log.e("GetAddressIntentService",
@@ -33,7 +35,10 @@ public class GetAddressIntentService extends IntentService {
             return;
         }
 
-        Location location = intent.getParcelableExtra("add_location");
+        Location location = null;
+        if (intent != null) {
+            location = intent.getParcelableExtra("add_location");
+        }
 
         //send no location error to results receiver
         if (location == null) {
@@ -62,31 +67,20 @@ public class GetAddressIntentService extends IntentService {
             Address address = addresses.get(0);
             StringBuffer addressDetails = new StringBuffer();
 
-            addressDetails.append(address.getFeatureName());
-            addressDetails.append("\n");
-
+            //street
             addressDetails.append(address.getThoroughfare());
-            addressDetails.append("\n");
+            addressDetails.append(" ");
 
-            addressDetails.append("Locality: ");
+            //number street
+            addressDetails.append(address.getFeatureName());
+            addressDetails.append(" ,");
+
+            //city
             addressDetails.append(address.getLocality());
-            addressDetails.append("\n");
+//            addressDetails.append(", ");
 
-            addressDetails.append("County: ");
-            addressDetails.append(address.getSubAdminArea());
-            addressDetails.append("\n");
-
-            addressDetails.append("State: ");
-            addressDetails.append(address.getAdminArea());
-            addressDetails.append("\n");
-
-            addressDetails.append("Country: ");
-            addressDetails.append(address.getCountryName());
-            addressDetails.append("\n");
-
-            addressDetails.append("Postal Code: ");
-            addressDetails.append(address.getPostalCode());
-            addressDetails.append("\n");
+//            addressDetails.append(address.getCountryName());
+//            addressDetails.append(".");
 
             sendResultsToReceiver(2,addressDetails.toString());
         }

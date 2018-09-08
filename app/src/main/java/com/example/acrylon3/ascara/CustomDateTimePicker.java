@@ -1,7 +1,9 @@
 package com.example.acrylon3.ascara;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.view.Gravity;
 import android.view.View;
@@ -17,7 +19,8 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
-public class CustomDateTimePicker implements View.OnClickListener {
+@SuppressLint("ValidFragment")
+public class CustomDateTimePicker extends DialogFragment implements View.OnClickListener {
     private DatePicker datePicker;
     private TimePicker timePicker;
     private ViewSwitcher viewSwitcher;
